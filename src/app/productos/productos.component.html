@@ -1,0 +1,45 @@
+<div class="all">
+  <thead>
+    <div class="botonCarrito">
+      <button class="botonCarrito2" routerLink="/carrito">
+        Ver mi carrito
+      </button>
+    </div>
+    <div class="title">
+      <h1>Bienvenido a Star Wars!</h1>
+    </div>
+
+    <div class="cards-container">
+      <tr *ngFor="let character of characters">
+        <div class="divContainer">
+          <div class="nombre">
+            <td>{{ character.name }}</td>
+          </div>
+          <div class="especies">
+            <td>{{ character.species || "Human" }}</td>
+          </div>
+          <div class="peliculas">
+            <td>
+              <ul>
+                {{
+                  character.films.join(", ")
+                }}
+              </ul>
+            </td>
+          </div>
+
+          <td>
+            <div class="precios">USD$ {{ character.mass }}</div>
+            <div class="compra">
+              <button class="boton" (click)="anadirProducto(character)">
+                Añadir producto
+              </button>
+            </div>
+          </td>
+
+          <td></td>
+        </div>
+      </tr>
+    </div>
+  </thead>
+</div>
