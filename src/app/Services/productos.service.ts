@@ -8,7 +8,7 @@ interface Character {
   films: string[];
   mass: number;
   quantity: number;
-  totalPrice: number; //utilizando el peso del personaje como precio.
+  totalPrice: number;
 }
 @Injectable({
   providedIn: 'root',
@@ -42,25 +42,18 @@ export class ProductosService {
   }
 
   public addToCart(character: Character): void {
-    console.log(character);
-    console.log('THIS.CHARACTER');
-    console.log(this.character);
+    const existingProduct = this.character.find((item) => item.name === character.name);
   
-    const isCharacterInCart = this.character.some(
-      (item) => item.name == character.name
-    );
-    console.log(isCharacterInCart);
-    if (!isCharacterInCart) {
-      character.totalPrice = character.quantity * Number(character.mass);
-      this.character.push(character);
+    if (existingProduct) {
+      existingProduct.quantity += character.quantity;
+      existingProduct.totalPrice += character.totalPrice;
     } else {
-      console.log('Ya esta en el carrito');
+      character.totalPrice = character.quantity * character.mass;
+      this.character.push(character);
     }
-    console.log(this.character);
-
+  
     this.cartSubject.next(this.character);
   }
-
   updateQuantity(character: Character, quantity: 1) {
     character.quantity = quantity;
     character.mass = character.mass * quantity;

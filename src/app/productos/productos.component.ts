@@ -8,6 +8,7 @@ interface Character {
   films: string[];
   mass: number;
   quantity: number;
+  totalPrice?: number;
 }
 
 @Component({
@@ -17,6 +18,7 @@ interface Character {
 })
 export class ProductosComponent implements OnInit {
   characters: any[] = [];
+  listaProductos: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -47,6 +49,7 @@ export class ProductosComponent implements OnInit {
       });
     });
   }
+
 
   anadirProducto(characters: any) {
     this.productosService.addToCart(characters);

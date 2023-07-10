@@ -11,6 +11,7 @@
         <th class="tabla">Precio unidad</th>
         <th class="tabla">Cantidad</th>
         <th class="tabla">Precio total</th>
+        <th class="tabla">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -19,26 +20,49 @@
         <td class="tabla tabla-item">{{ character.species || "Human" }}</td>
         <td class="tabla tabla-item">USD$ {{ character.mass }}</td>
         <td class="tabla tabla-item">
-          <input
-            class="input"
-            type="number"
-            min="1"
-            (change)="calcularPrecio($event, character)"
-            value="1"
-          />
+          <div class="cantidad-container">
+            <button
+              class="cantidad-button"
+              (click)="aumentarCantidad(character)"
+            >
+              +
+            </button>
+            <input
+              class="cantidad-input"
+              type="number"
+              min="1"
+              [(ngModel)]="character.quantity"
+              (ngModelChange)="calcularPrecio(character.quantity, character)"
+            />
+            <button
+              class="cantidad-button"
+              (click)="disminuirCantidad(character)"
+            >
+              -
+            </button>
+          </div>
         </td>
         <td class="tabla tabla-item">
           <span>USD$ {{ character.totalPrice || 0 }}</span>
         </td>
+        <td class="tabla tabla-item">
+          <button class="boton" (click)="borrarProducto(character)">
+            Eliminar
+          </button>
+        </td>
       </tr>
     </tbody>
-    <div></div>
-    <h2>Elija con que moneda pagar:</h2>
-    <select class="select">
-      <option value="USD$">USD$ {{ totalPrice }}</option>
-      <option value="€">€ {{ totalPrice * 0.9 }}</option>
-      <option value="AR$">AR$ {{ totalPrice * 226 }}</option>
-    </select>
-    <button class="botoncomprar">Comprar</button>
   </table>
+  <div></div>
+  <div></div>
+  <h2>Elija con qué moneda pagar:</h2>
+  <select class="select">
+    <option value="USD$">USD$ {{ totalPrice }}</option>
+    <option value="€">€ {{ totalPrice * 0.9 }}</option>
+    <option value="AR$">AR$ {{ totalPrice * 226 }}</option>
+  </select>
+  <button class="botoncomprar" (click)="realizarCompra()">Comprar</button>
+  <div *ngIf="compraRealizada" class="cartel-exito">
+    <p>La compra se realizó con éxito.</p>
+  </div>
 </div>
